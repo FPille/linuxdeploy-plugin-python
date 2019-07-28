@@ -1,7 +1,9 @@
-services:
-  - docker
+language: generic
+sudo: required
+dist: trusty
 
-cache: docker
+before_install:
+  - sudo apt-get update -qq
 
 branches:
   only:
@@ -10,15 +12,9 @@ branches:
     - # Do not build tags that we create when we upload to GitHub Releases
     - /^(?i:continuous)$/
 
-matrix:
-  include:
-    - env: ARCH=x86_64
-
-install:
-  - docker build -t ${DOCKER_USERNAME}/linuxdeploy-plugin-python:${ARCH} --build-arg Arch=${ARCH} .travis
-
 script:
-  - docker run --cap-add SYS_ADMIN --device /dev/fuse --mount src=$PWD,dst=/work,type=bind ${DOCKER_USERNAME}/linuxdeploy-plugin-python:${ARCH}
+  - bash appimage/build-plugin.sh
+  - wget https://github.com/probonopd/uploadtool/raw/master/upload.sh
 
 after_success:
-  - ./.travis/after-success.sh
+  - bash upload.sh appimage/*.AppImage

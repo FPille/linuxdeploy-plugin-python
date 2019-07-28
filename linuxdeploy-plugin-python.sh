@@ -166,12 +166,6 @@ do
     fi
 done
 
-# create symlinks for all binaries in ${prefix}/bin/ in usr/bin/
-mkdir -p "$APPDIR"/usr/bin/
-for i in "$APPDIR/${prefix}"/bin/*; do
-    ln -s -r "$i" "$APPDIR"/usr/bin/
-done
-
 # Set a hook in Python for cleaning the path detection
 cp "$BASEDIR/share/sitecustomize.py" "$APPDIR"/${prefix}/lib/python*/site-packages
 

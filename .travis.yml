@@ -14,6 +14,7 @@ branches:
 
 script:
   - bash appimage/build-plugin.sh
+  - bash appimage/build-python.sh python3
   - wget https://github.com/probonopd/uploadtool/raw/master/upload.sh
 
 after_success:
